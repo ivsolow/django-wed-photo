@@ -1,5 +1,6 @@
 __pycache__/
 .env
+.idea
 /djangoenv
 /cache
 manage.sublime-workspace
