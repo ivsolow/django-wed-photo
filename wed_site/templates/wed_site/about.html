@@ -1,0 +1,35 @@
+{% extends 'wed_site/index.html' %} {% block title %}
+<div class="about">
+	<h1>Обо мне</h1>
+</div>
+{% endblock title %} {% block gallery %} {% endblock gallery %} {% block content %} {% block me %} {% load static %}
+
+<div class="block-about">
+	<div class="avatar">
+		<img src="{% static 'wed_site/images/ava.jpg' %}" alt="avatar" />
+	</div>
+	<div class="about-me">
+		<p>
+			Привет! Меня зовут Username и я занимаюсь профессиональной фотосъемкой. Лучше всего обо мне расскажут
+			отзывы моих клиентов в разделе ниже.
+		</p>
+	</div>
+</div>
+
+{% endblock me %} {% block feedback %}
+
+<div class="feedback-title">
+	<h1>Отзывы о моей работе</h1>
+</div>
+
+{% for f in feedback %}
+<div class="feedback-name">
+	<p>{{ f.name }}</p>
+	<p>(город {{ f.city }})</p>
+</div>
+
+<div class="feedback-block">
+	<div class="feedback-avatar"><img src="{{ f.avatar.url }}" alt="" /></div>
+	<div class="feedback-text"><p>{{ f.content|linebreaks }}</p></div>
+</div>
+{% endfor %} {% endblock feedback %} {% endblock content%}

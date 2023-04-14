@@ -1,0 +1,143 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA_Compatible" content="IE=edge" />
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
+        <title>Фотограф Иван Карчев</title>
+        <link type="text/css" href="{% static 'wed_site/css/swiper-bundle.min.css' %}" rel="stylesheet" />
+        <link type="text/css" href="{% static 'wed_site/css/index.css' %}" rel="stylesheet" />
+        <link type="text/css" href="{% static 'wed_site/css/preloader.css' %}" rel="stylesheet" />
+
+        <link rel="icon" type="image/png" href="{% static 'wed_site/images/favicon1.png' %}" />
+    </head>
+
+    <body class="body_hide">
+        <div class="holder">
+            <div class="preloader">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+
+        {% block menu %}
+
+        <header>
+            <input type="checkbox" id="menu-bar" />
+            <label class="menu__btn" for="menu-bar">
+                <span></span>
+            </label>
+            <a href="{% url 'home' %}" class="logo">Ivan Karchev Photographer</a>
+            <nav class="navbar">
+                <ul>
+                    {% for m in menu %} {% url m.url_name as var %} {% if request.path == var %}
+                    <li><p>{{m.title}}</p></li>
+                    {% else %}
+                    <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                    {% endif %} {% endfor %}
+                </ul>
+            </nav>
+        </header>
+
+        {% endblock menu %} {% block title %}
+        <div class="wedpost_title">
+            {% for w in wedpost %} {% if w.wedpost.slug in request.path %}
+            <h1>{{ w.wedpost.title }}</h1>
+
+            <!--    DON'T REMOVE THIS CODE BELOW, IT'S PRINTING BLANK LOOP ITERATIONS! (EXPERIMENTAL)  -->
+            {{ "<!--" }}
+            {%endif%}
+            {%endfor%}
+            {{ "-->" }}
+        </div>
+
+        {% endblock title %} {% block gallery %}
+
+        <div class="mySwiper-wedpost">
+            <div class="swiper-wrapper">
+                {% for w in wedpost %} {% if w.wedpost.slug in request.path %}
+                <div class="swiper-slide"><img src="{{ w.image.url }}" loading="lazy" /></div>
+                {% endif %} {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+        {% endblock gallery %} {% block content %} {% endblock content %} {% block scripts %}
+
+        <!-- popup images and slider-->
+
+        <script src="{% static 'wed_site/js/swiper-bundle.min.js' %}"></script>
+
+        <script>
+            var swiper = new Swiper(".mySwiper-wedpost", {
+                spaceBetween: 30,
+                observer: true,
+                loop: true,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                mousewheel: false,
+                keyboard: true,
+                creativeEffect: {
+                    prev: {
+                        translate: ["-50%", 0, -1],
+                    },
+                    next: {
+                        translate: ["100%", 0, 0],
+                    },
+                },
+                effect: "fade",
+                fadeEffect: {
+                    crossFade: true,
+                },
+            });
+        </script>
+
+        <!-- preloader -->
+
+        <script>
+            var loader = document.querySelector(".holder");
+
+            window.addEventListener("load", function () {
+                loader.style.display = "none";
+            });
+        </script>
+
+        <!-- smooth loading -->
+
+        <script>
+            setTimeout(function () {
+                document.body.classList.add("body_wedpost");
+            }, 200);
+        </script>
+
+        {% endblock scripts %} {% block add_scripts %} {% endblock add_scripts %} {% block footer %}
+
+        <footer>
+            <div class="footer">
+                <a href="https://www.instagram.com/ivankarchev/" target="_blank" class="footer-icon"><img src="{% static 'wed_site/images/inst.jpg' %}" /></a>
+                <a href="https://t.me/ikarchev" target="_blank" class="footer-icon"><img src="{% static 'wed_site/images/tg.jpg' %}" /></a>
+                <a href="https://vk.com/i.karchev" target="_blank" class="footer-icon"><img src="{% static 'wed_site/images/vk.png' %}" /></a>
+            </div>
+
+            <div>
+                <p>&copy; 2023 - Фотограф Иван Карчев</p>
+            </div>
+        </footer>
+
+        {% endblock footer %}
+    </body>
+</html>

@@ -1,0 +1,12 @@
+{% extends 'wed_site/index.html' %} {% block title %}
+
+<div class="space"></div>
+
+{% endblock title %} {% block gallery %} {% for w in wed %}
+<div class="wed-container">
+    <div class="wed-text"><p>{{w.title}}</p></div>
+    <div class="wed-image">
+        <a href="{{ w.get_absolute_url }}"><img class="wed-image" src="{{ w.cover.url }}" alt="..." /> </a>
+    </div>
+</div>
+{% endfor %} {% endblock gallery %} {% block content %} {% endblock content %}

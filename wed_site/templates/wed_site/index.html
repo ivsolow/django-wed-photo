@@ -1,0 +1,174 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA_Compatible" content="IE=edge" />
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
+        <title>Фотограф Username</title>
+        <link type="text/css" href="{% static 'wed_site/css/swiper-bundle.min.css' %}" rel="stylesheet" />
+        <link type="text/css" href="{% static 'wed_site/css/index.css' %}" rel="stylesheet" />
+        <link type="text/css" href="{% static 'wed_site/css/preloader.css' %}" rel="stylesheet" />
+
+        <link rel="icon" type="image/png" href="{% static 'wed_site/images/favicon.png' %}" />
+    </head>
+
+    <!-- Preloader -->
+    <body class="body_hide">
+        <div class="holder">
+            <div class="preloader">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+
+        {% block menu %}
+
+        <header>
+            <input type="checkbox" id="menu-bar" />
+            <label class="menu__btn" for="menu-bar">
+                <span></span>
+            </label>
+            <a href="{% url 'home' %}" class="logo">Username Photographer</a>
+            <nav class="navbar">
+                <ul>
+                    {% for m in menu %} {% url m.url_name as var %} {% if request.path == var %}
+                    <li><p>{{m.title}}</p></li>
+                    {% else %}
+                    <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                    {% endif %} {% endfor %}
+                </ul>
+            </nav>
+        </header>
+
+        {% endblock menu %} {% block title %}
+
+        <div class="about">
+            <h1></h1>
+        </div>
+
+        {% endblock title %} {% block gallery %}
+
+        <div class="container">
+            {% for n in photos %}
+            <div class="image-container">
+                <div class="image"><img src="{{ n.image.url }}" loading="lazy" alt="..." /></div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mySwiper">
+            <div class="swiper-wrapper">
+                {% for n in photos %}
+                <div class="swiper-slide">
+                    <img src="{{ n.image.url }}" loading="lazy" />
+                </div>
+                {% endfor %}
+            </div>
+            <span>&times;</span><img src="" alt="" />
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+        {% endblock gallery %} {% block content %} {% endblock content %} {% block scripts %}
+
+        <!-- popup images and slider-->
+
+        <script src="{% static 'wed_site/js/swiper-bundle.min.js' %}"></script>
+
+        <script>
+
+            var swiper = new Swiper(".mySwiper", {
+                spaceBetween: 30,
+                  observer: true,
+                    // initialSlide: 25,
+                  loop: true,
+                  init: false,
+                  navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                  },
+                  mousewheel: false,
+                  keyboard: true,
+                  creativeEffect: {
+                prev: {
+                  translate: ["-50%", 0, -1],
+                },
+                next: {
+                  translate: ["100%", 0, 0],
+                },
+              },
+                  effect: 'fade',
+              fadeEffect: {
+                crossFade: true
+              },
+            });
+
+                 document.querySelectorAll('.image-container img').forEach(image =>{
+                image.onclick = () =>{
+                    console.log(image.getAttribute('src'));  //PRINT THE ATTRIBUTE IN CONSOLE!
+                    document.querySelector('.mySwiper img').src = image.getAttribute('src');
+                    swiper.init();
+                    document.querySelector('.mySwiper').style.display = 'block';
+                        setTimeout(function(){
+                            document.querySelector('.mySwiper').style.opacity = 1;
+                        }, 100);
+                    }
+                });
+
+                 document.querySelector('.mySwiper span').onclick = () =>{
+                        setTimeout(function(){
+                            document.querySelector('.mySwiper').style.opacity = 0;
+                        }, 100);
+                        setTimeout(function(){
+                            document.querySelector('.mySwiper').style.display = 'none';
+                        }, 1000);
+                        swiper.loopDestroy();
+            }
+        </script>
+
+        <!-- preloader -->
+
+        <script>
+            var loader = document.querySelector('.holder');
+
+            window.addEventListener('load', function(){
+                loader.style.display = 'none';
+            })
+        </script>
+
+        <!-- smooth loading -->
+
+        <script>
+                setTimeout(function(){
+                document.body.classList.add('body_visible');
+            }, 200);
+        </script>
+
+        {% endblock scripts %} {% block add_scripts %} {% endblock add_scripts %} {% block footer %}
+
+        <footer>
+            <div class="footer">
+                <a href="" target="_blank" class="footer-icon"><img src="{% static 'wed_site/images/inst.jpg' %}" /></a>
+                <a href="" target="_blank" class="footer-icon"><img src="{% static 'wed_site/images/tg.jpg' %}" /></a>
+                <a href="" target="_blank" class="footer-icon"><img src="{% static 'wed_site/images/vk.png' %}" /></a>
+            </div>
+
+            <div>
+                <p>&copy; 2023 - Фотограф Username</p>
+            </div>
+        </footer>
+
+        {% endblock footer %}
+    </body>
+</html>

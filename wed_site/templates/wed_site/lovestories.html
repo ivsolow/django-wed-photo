@@ -1,0 +1,29 @@
+{% extends 'wed_site/index.html' %} {% block title %}
+
+<div class="lovest"></div>
+
+{% endblock title %} {% block gallery %}
+
+<div class="container">
+    {% for l in lovest %}
+    <div class="image-container">
+        <div class="image"><img src="{{ l.image.url }}" alt="..." /></div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="mySwiper">
+    <div class="swiper-wrapper">
+        {% for l in lovest %}
+        <div class="swiper-slide">
+            <img src="{{ l.image.url }}" />
+        </div>
+        {% endfor %}
+    </div>
+    <span>&times;</span><img src="" alt="" />
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
+
+{% endblock gallery %}
