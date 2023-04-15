@@ -2,4 +2,3 @@ pip-chill==1.0.1
 django==4.2
 pillow==9.5.0
 django-debug-toolbar==4.0.0
-python-dotenv==1.0.0
